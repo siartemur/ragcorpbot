@@ -1,4 +1,3 @@
-import os
 from app.services.file_loader_service import load_pdf_chunks
 
 def test_pdf_loading():

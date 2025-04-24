@@ -1,17 +1,18 @@
+from langdetect import detect
+
 def build_prompt(question: str, context_chunks: list[tuple[str, str]]) -> str:
-    """
-    context_chunks: List of tuples (chunk_content, source_info)
-    Example: ("Greetings from page 2.", "example2.pdf – Page 2")
-    """
+    detected_lang = detect(question)
+
     formatted_chunks = []
     for content, source in context_chunks:
         formatted_chunks.append(f"[{source}]\n{content}")
 
     context = "\n\n".join(formatted_chunks)
 
-    prompt = f"""
-Based on the context below, provide a clear and concise answer in Turkish.
-At the end of your response, include the sources only once (e.g., 'Source: ...').
+    if detected_lang == "en":
+        prompt = f"""
+Answer the user's question in clear and concise English based on the following context.
+Mention the sources only once at the end. (e.g., 'Source: ...')
 
 ### Context:
 {context}
@@ -20,4 +21,17 @@ At the end of your response, include the sources only once (e.g., 'Source: ...')
 {question}
 
 ### Answer:"""
+    else:
+        prompt = f"""
+Aşağıdaki bağlamlara göre kullanıcı sorusuna Türkçe, net ve kaynaklı bir yanıt ver.
+Cevabın sonunda yalnızca 1 kez kaynakları belirt (örn. 'Kaynak: ...').
+
+### Bağlam:
+{context}
+
+### Soru:
+{question}
+
+### Cevap:"""
+
     return prompt.strip()
