@@ -1,0 +1,29 @@
+# Python cache and bytecode
+__pycache__/
+*.py[cod]
+*.pyo
+
+# Virtual environment
+venv/
+env/
+
+# VS Code settings
+.vscode/
+
+# Environment variables
+.env
+
+# OS files
+.DS_Store
+Thumbs.db
+
+# Python test & coverage files
+.coverage
+htmlcov/
+.tox/
+.pytest_cache/
+
+# Vector DB & metadata
+vector_store/*.faiss
+vector_store/*.pkl
+
